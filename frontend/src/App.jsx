@@ -2,13 +2,16 @@
 import React from 'react'; 
 import './App.css'
 import './index.css'
-function App() {
+import NavBar from './components/NavBar';
+import SwipeView from './pages/SwipeView';
 
+function App() {
   return (
-    <div className=" text-red-500  ">
-    this is a test 
-  </div>
-  )
+    <div className="bg-gray-100 min-h-screen">
+      <NavBar />
+      <SwipeView />
+    </div>
+  );
 }
 
 export default App
