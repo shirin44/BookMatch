@@ -1,17 +1,20 @@
-
-import React from 'react'; 
-import './App.css'
-import './index.css'
-import NavBar from './components/NavBar';
-import SwipeView from './pages/SwipeView';
+import React from "react";
+import NavBar from "./components/NavBar";
+import Sidebar from "./components/SideBar";
+import SwipeView from "./pages/SwipeView";
 
 function App() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <NavBar />
-      <SwipeView />
+    <div className="flex h-screen">
+      <Sidebar />
+      <div className="flex flex-col flex-grow">
+        <NavBar />
+        <div className="flex justify-center items-center flex-grow">
+          <SwipeView />
+        </div>
+      </div>
     </div>
   );
 }
 
-export default App
+export default App;
