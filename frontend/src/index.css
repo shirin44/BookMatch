@@ -3,4 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* Smooth Swipe Animations */
+.swipe-left {
+    @apply transform -translate-x-[120%] -rotate-12 transition-transform duration-300 ease-in-out;
+  }
+  
+  .swipe-right {
+    @apply transform translate-x-[120%] rotate-12 transition-transform duration-300 ease-in-out;
+  }
+  
+  .swiping {
+    @apply transform scale-105 rotate-3 transition-transform duration-300 ease-in-out;
+  }
