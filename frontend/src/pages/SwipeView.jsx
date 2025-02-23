@@ -5,10 +5,9 @@ import ActionButtons from "../components/ActionButton";
 import Questionnaire from "../components/Questionnaire";
 import { fetchBooks } from "../services/bookService";
 
-const SwipeView = () => {
+const SwipeView = ({ savedBooks, setSavedBooks }) => {
   const [books, setBooks] = useState([]);
   const [searchParams, setSearchParams] = useState(null);
-  const [savedBooks, setSavedBooks] = useState([]);
   const childRefs = useRef([]);
 
   useEffect(() => {
@@ -23,21 +22,22 @@ const SwipeView = () => {
   };
 
   const swipe = (dir) => {
-    if (childRefs.current.length > 0) {
-      const bookIndex = books.length - 1;
-      childRefs.current[bookIndex]?.swipe(dir);
+    const bookIndex = books.length - 1;
+    if (childRefs.current[bookIndex]) {
+      childRefs.current[bookIndex].swipe(dir);
     }
   };
 
   const handleSave = () => {
     if (books.length > 0) {
-      setSavedBooks((prev) => [...prev, books[books.length - 1]]);
+      const bookToSave = books[books.length - 1]; // Get the last book
+      setSavedBooks((prev) => [...prev, bookToSave]); // Add to savedBooks
+      setBooks((prevBooks) => prevBooks.filter((b) => b.id !== bookToSave.id)); // Remove from books
     }
   };
 
   return (
     <div className="flex flex-col items-center w-full h-full">
-      {/* If no searchParams, show the questionnaire */}
       {!searchParams ? (
         <div className="w-full max-w-md bg-white shadow-lg p-6 rounded-lg">
           <Questionnaire
@@ -48,7 +48,6 @@ const SwipeView = () => {
         </div>
       ) : (
         <>
-          {/* Book Swiping Area */}
           <div className="relative w-full max-w-lg flex items-center justify-center flex-grow mt-6">
             {books.length > 0 ? (
               books.map((book, index) => (
@@ -59,7 +58,7 @@ const SwipeView = () => {
                   onSwipe={(dir) => handleSwipe(dir, book.id)}
                   preventSwipe={["up", "down"]}
                   swipeRequirementType="position"
-                  swipeThreshold={50} // Even smoother swiping
+                  swipeThreshold={50}
                 >
                   <BookCard book={book} />
                 </TinderCard>
@@ -69,11 +68,10 @@ const SwipeView = () => {
             )}
           </div>
 
-          {/* Action Buttons */}
-          <ActionButtons 
-            onLike={() => swipe("right")} 
-            onDislike={() => swipe("left")} 
-            onSave={handleSave} 
+          <ActionButtons
+            onLike={() => swipe("right")}
+            onDislike={() => swipe("left")}
+            onSave={handleSave}
           />
         </>
       )}
